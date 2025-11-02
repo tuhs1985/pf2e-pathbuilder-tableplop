@@ -1,4 +1,4 @@
-# Tableplop: Armor (parentId: 77227926)
+# Tableplop "Inventory" Tab: Armor (parentId: 77227926)
 
 This document defines how to populate the Armor section from a Pathbuilder export.
 
