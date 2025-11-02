@@ -1,4 +1,4 @@
-# Tableplop: Armor Proficiency (parentId: 77227864)
+# Tableplop "Inventory" Tab: Armor Proficiency (parentId: 77227864)
 
 This document specifies how to map Pathbuilder armor proficiency into Tableplop’s “Armor Proficiency” section using the template’s skill-4 + checkboxes structure.
 
