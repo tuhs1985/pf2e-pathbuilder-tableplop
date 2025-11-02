@@ -1,4 +1,4 @@
-# Tableplop: Backpack (parentId: 77227966)
+# Tableplop "Inventory" Tab: Backpack (parentId: 77227966)
 
 This document defines how to populate the Backpack section from a Pathbuilder export.
 
