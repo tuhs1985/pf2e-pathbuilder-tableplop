@@ -1,4 +1,4 @@
-# Tableplop "Character" Tab Analysis
+# Tableplop "Character" Tab: Character Details Analysis
 
 This document analyzes the structure and field mapping of the "Character" tab in a Tableplop character sheet, focusing on how to translate Pathbuilder export fields into the appropriate Tableplop properties/sections.
 
