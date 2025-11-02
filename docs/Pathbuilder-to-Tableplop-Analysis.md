@@ -113,7 +113,11 @@ Level 8, Proficiency 4 (Expert), Ability 16 (+3), Resilient (+1):
     - `"striking"`: 2dX
     - `"greaterStriking"`: 3dX
     - `"majorStriking"`: 4dX
-- `"pot"`: potency rune, already reflected in attack bonus
+- `"pot"`: The potency rune field is a numeric bonus to attack rolls:
+    - `0`: No potency rune
+    - `1`: +1 item bonus
+    - `2`: +2 item bonus
+    - `3`: +3 item bonus
 - `"attack"`, `"damageBonus"`: already calculated, use as-is
 - `"extraDamage"`: list of extra damage dice/effects
 
@@ -124,6 +128,44 @@ Level 8, Proficiency 4 (Expert), Ability 16 (+3), Resilient (+1):
 | "greaterStriking"  | 3dX         |
 | "majorStriking"    | 4dX         |
 
+#### Example Pathbuilder Weapon Objects
+
+No striking:
+```json
+{
+  "name": "Greatsword",
+  "die": "d12",
+  "str": "",
+  "pot": 0
+}
+```
+→ Damage: 1d12 + modifiers
+
+With striking:
+```json
+{
+  "name": "Greatsword",
+  "die": "d12",
+  "str": "striking",
+  "pot": 1
+}
+```
+→ Damage: 2d12 + modifiers
+
+With greaterStriking:
+```json
+{
+  "name": "Greatsword",
+  "die": "d12",
+  "str": "greaterStriking",
+  "pot": 2
+}
+```
+→ Damage: 3d12 + modifiers
+
+When mapping to Tableplop, always parse the `"str"` field to construct the correct number of weapon dice in the message or description.
+
+---
 ---
 
 ## Armor Rune Breakdown
