@@ -1,4 +1,4 @@
-# PF2e → Tableplop Exporter (MVP)
+# Pathbuilder 2e → Tableplop Exporter (MVP)
 
 Goal
 - Fetch a Pathbuilder 2e JSON build and generate a valid Tableplop character JSON the player can download/import.
