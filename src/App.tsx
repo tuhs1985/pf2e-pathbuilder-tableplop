@@ -29,7 +29,7 @@ export function App() {
 
   return (
     <div style={{ maxWidth: 900, margin: '2rem auto', fontFamily: 'system-ui, sans-serif' }}>
-      <h1>PF2e → Tableplop Exporter (Character tab MVP)</h1>
+      <h1>Pathbuilder 2e → Tableplop Exporter (Character tab MVP)</h1>
       <p>Enter a Pathbuilder JSON ID. Example: 182461</p>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <input
