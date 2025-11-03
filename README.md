@@ -1,15 +1,35 @@
-# Pathfinder 2e Pathbuilder to Tableplop Converter
+# PF2e → Tableplop Exporter (MVP)
 
-This project focuses on tools and documentation for converting Pathfinder 2e Pathbuilder JSON exports to Tableplop VTT character templates. It aims to simplify the process of transferring character information between these two platforms.
+Goal
+- Fetch a Pathbuilder 2e JSON build and generate a valid Tableplop character JSON the player can download/import.
+- Start with Character tab (Character Details + Ability Scores), then expand tab-by-tab.
 
-## Contents
+Status
+- React + TypeScript + Vite minimal app
+- Uses 8-digit ID ranges:
+  - Character: 10000000–29999999 (current MVP)
+  - Inventory: 30000000–49999999
+  - Feats: 50000000–69999999
+  - Spells: 70000000–89999999
+  - Background: 90000000–99999999
 
-- Analysis of Pathbuilder JSON structure
-- Analysis of Tableplop template JSON structure
-- Mapping documentation between the two formats
-- Conversion logic outlines
-- (Planned) Scripts/utilities for automated conversion
+Run locally
+- npm install
+- npm run dev
+- Open http://localhost:5173
 
-## Status
+Usage
+- Enter the Pathbuilder JSON ID (e.g., 182461).
+- Click “Fetch & Map” to preview.
+- Click “Download JSON” to save a Tableplop import file.
 
-This repository is under active development as the mapping and conversion process is documented and prototyped.
+Notes
+- If CORS blocks the fetch, use a simple proxy or add a “Paste JSON” fallback UI.
+- Ranks use gaps for human-friendly ordering; layout uses container chain: tab → horizontal-section → section → title-section → widgets.
+- characterId is null for import; Tableplop assigns it.
+
+Next tabs
+- Inventory: weapon/armor proficiencies and weapons messages.
+- Feats: Active/Passive abilities as messages.
+- Spells: two-column structure; preserve DC formulas, slot checkboxes; add summaries.
+- Background: freeform paragraphs/messages.

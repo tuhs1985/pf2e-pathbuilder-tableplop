@@ -136,8 +136,8 @@ Notes
   - macOS/Linux:
     - python3 scripts/renumber_tableplop_ids.py input.json output.json
   - Windows (PowerShell/CMD):
-    - py -3 scripts\renumber_tableplop_ids.py input.json output.json
-    - or python scripts\renumber_tableplop_ids.py input.json output.json
+    - py -3 scripts\\renumber_tableplop_ids.py input.json output.json
+    - or python scripts\\renumber_tableplop_ids.py input.json output.json
 
 - Notes
   - Script keys on tab names: “Character”, “Inventory”, “Feats”, “Spells”, “Background”.

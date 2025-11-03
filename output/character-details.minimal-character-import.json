@@ -1,0 +1,121 @@
+{
+  "type": "tableplop-character-v2",
+  "private": false,
+  "properties": [
+    {
+      "id": 77228047,
+      "parentId": null,
+      "type": "tab-section",
+      "data": {},
+      "value": "Character",
+      "rank": -5,
+      "characterId": null
+    },
+    {
+      "id": 77227847,
+      "parentId": 77228047,
+      "type": "horizontal-section",
+      "data": null,
+      "rank": -4,
+      "characterId": null
+    },
+    {
+      "id": 77227941,
+      "parentId": 77227847,
+      "type": "section",
+      "data": null,
+      "rank": 0,
+      "size": 62.76995305164285,
+      "characterId": null
+    },
+    {
+      "id": 77227840,
+      "parentId": 77227847,
+      "type": "section",
+      "data": null,
+      "rank": 1,
+      "size": 37.23004694835691,
+      "characterId": null
+    },
+
+    {
+      "id": 77227917,
+      "parentId": 77227941,
+      "type": "title-section",
+      "data": { "collapsed": false },
+      "value": "Character Details",
+      "rank": -100,
+      "characterId": null
+    },
+    {
+      "id": 77227952,
+      "parentId": 77227917,
+      "type": "text",
+      "data": null,
+      "name": "Name",
+      "value": "Kurgan Dusthammer",
+      "rank": -100,
+      "characterId": null
+    },
+    {
+      "id": 77227874,
+      "parentId": 77227917,
+      "type": "text",
+      "data": null,
+      "name": "Ancestry",
+      "value": "Dwarf",
+      "rank": -90,
+      "characterId": null
+    },
+    {
+      "id": 77227876,
+      "parentId": 77227917,
+      "type": "text",
+      "data": null,
+      "name": "Heritage",
+      "value": "Forge Dwarf",
+      "rank": -80,
+      "characterId": null
+    },
+    {
+      "id": 77227880,
+      "parentId": 77227917,
+      "type": "text",
+      "data": null,
+      "name": "Class",
+      "value": "Magus",
+      "rank": -70,
+      "characterId": null
+    },
+    {
+      "id": 77227859,
+      "parentId": 77227917,
+      "type": "text",
+      "data": null,
+      "name": "Background",
+      "value": "Artisan",
+      "rank": -60,
+      "characterId": null
+    },
+    {
+      "id": 77227940,
+      "parentId": 77227917,
+      "type": "number",
+      "data": null,
+      "name": "Experience",
+      "value": 0,
+      "rank": -20,
+      "characterId": null
+    },
+    {
+      "id": 77227939,
+      "parentId": 77227917,
+      "type": "number",
+      "data": null,
+      "name": "Level",
+      "value": 8,
+      "rank": -10,
+      "characterId": null
+    }
+  ]
+}

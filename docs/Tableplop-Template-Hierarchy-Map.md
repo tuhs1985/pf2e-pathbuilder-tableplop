@@ -74,9 +74,9 @@ Source: PC Template.json (provided)
               - widget: 77227919 number shield-hit-points-maximum 0 (rank: 1), formula: shield_hp
             - widget: 77228053 number Shield Hardness 0 (rank: -5), formula: shield_hardness
             - widget: 77228049 number BT 0 (rank: -4), formula: broken_threshhold
+        - widget: 77227837 checkboxes Hero Points value=1 (rank: -2)
+          - widget: 77227838 number hero_points-max 3 (rank: 1)
         - widget: 77227953 paragraph Notes (rank: -4) [example text block]
-    - widget: 77227837 checkboxes Hero Points value=1 (rank: -2)
-      - widget: 77227838 number hero_points-max 3 (rank: 1)
   - Right column: 77227840 (section, size: 37.23004694835691, rank: 1)
     - title: 77227823 "Skills" (rank: 26)
       - widget: 77227998 skill-4 Acrobatics 3 (rank: -18), formula: dex + pips, message: "Acrobatics {1d20+acrobatics}"
@@ -114,16 +114,16 @@ Source: PC Template.json (provided)
         - widget: 77227826 checkbox intimidation-expert (rank: 2, false)
         - widget: 77227827 checkbox intimidation-master (rank: 3, false)
         - widget: 77227989 checkbox intimidation-legendary (rank: 4, false)
-      - widget: 77228080 skill-4 Medicine 0 (rank: -7), message, formula wis + pips
-        - widget: 77227828 checkbox medicine-trained (rank: 1, false)
-        - widget: 77227829 checkbox medicine-expert (rank: 2, false)
-        - widget: 77228013 checkbox medicine-master (rank: 3, false)
-        - widget: 77228014 checkbox medicine-legendary (rank: 4, false)
       - widget: 77228074 skill-4 Nature 0 (rank: -6), message, formula wis + pips
         - widget: 77227830 checkbox nature-trained (rank: 1, false)
         - widget: 77227831 checkbox nature-expert (rank: 2, false)
         - widget: 77227832 checkbox nature-master (rank: 3, false)
         - widget: 77228085 checkbox nature-legendary (rank: 4, false)
+      - widget: 77228080 skill-4 Medicine 0 (rank: -7), message, formula wis + pips
+        - widget: 77227828 checkbox medicine-trained (rank: 1, false)
+        - widget: 77227829 checkbox medicine-expert (rank: 2, false)
+        - widget: 77228013 checkbox medicine-master (rank: 3, false)
+        - widget: 77228014 checkbox medicine-legendary (rank: 4, false)
       - widget: 77228082 skill-4 Occultism 0 (rank: -5), message, formula int + pips
         - widget: 77227833 checkbox occultism-trained (rank: 1, false)
         - widget: 77227834 checkbox occultism-expert (rank: 2, false)
@@ -139,6 +139,11 @@ Source: PC Template.json (provided)
         - widget: 77227956 checkbox stealth-expert (rank: 2, false)
         - widget: 77227858 checkbox stealth-master (rank: 3, false)
         - widget: 77227991 checkbox stealth-legendary (rank: 4, false)
+      - widget: 77227997 skill-4 Thievery 0 (rank: 2), message, formula dex + pips
+        - widget: 77227846 checkbox thievery-trained (rank: 1, false)
+        - widget: 77227948 checkbox thievery-expert (rank: 2, false)
+        - widget: 77227949 checkbox thievery-master (rank: 3, false)
+        - widget: 77227950 checkbox thievery-legendary (rank: 4, false)
       - widget: 77228000 skill-4 Religion 0 (rank: -3), message, formula wis + pips
         - widget: 77227853 checkbox religion-trained (rank: 1, false)
         - widget: 77227854 checkbox religion-expert (rank: 2, false)
@@ -192,30 +197,26 @@ Source: PC Template.json (provided)
       - widget: 77227929 number proficiency 7 (rank: 2), formula: medium
       - widget: 77227961 number Circumstance Bonus 0 (rank: 3)
       - widget: 77227960 heading "[ARMOR]" (rank: -1)
-    - widget: 77227930 heading "[SHIELD]" (rank: -1)
+    - widget: 77227930 heading "[SHIELD]" (rank: -1)  [sibling in right column]
     - widget: 77228052 number Shield Hardness 0 (rank: 0)
     - widget: 77228050 number Shield HP 0 (rank: 1)
     - widget: 77228051 number Broken Threshhold 0 (rank: 2)
     - title: 77227864 "Armor Proficiency" (rank: -3)
-      - widget: 77227896 skill-4 Unarmoured 3 (rank: 0)
-        - 77227897 trained, 77227898 expert, 77227899 master, 77227900 legendary
-      - widget: 77227901 skill-4 light 5 (rank: 1)
-        - 77227902 trained, 77227903 expert, 77227904 master, 77227905 legendary
-      - widget: 77227906 skill-4 medium 7 (rank: 2)
-        - 77227907 trained, 77227908 expert, 77227909 master, 77227910 legendary
-      - widget: 77227990 skill-4 heavy 9 (rank: 3)
-        - 77227913 trained, 77227914 expert, 77227915 master, 77227916 legendary
+      - widget: 77227896 skill-4 Unarmoured 3 (rank: 0), pips: 77227897 trained, 77227898 expert, 77227899 master, 77227900 legendary (all false except trained)
+      - widget: 77227901 skill-4 light 5 (rank: 1), pips: 77227902, 77227903, 77227904, 77227905
+      - widget: 77227906 skill-4 medium 7 (rank: 2), pips: 77227907, 77227908, 77227909, 77227910
+      - widget: 77227990 skill-4 heavy 9 (rank: 3), pips: 77227913, 77227914, 77227915, 77227916
     - title: 77227966 "Backpack" (rank: 3)
       - widget: 77227969 paragraph "<ul><li>Wonderful Figurine (Onyx Dog)</li></ul>" (rank: 0)
 - container: 77227963 (horizontal-section, rank: 2)
   - Left: 77227964 (section, size: 50, rank: 0)
   - Right: 77227965 (section, size: 50, rank: 1)
+  - [No children listed under these in this template export]
 
 ---
 
 ## Feats tab — id: 77228046 (tab-section, value: "Feats", rank: -2)
-- container: 77227973 (section, rank: 0, size: 50)
-  - [No children in export]
+- container: 77227973 (section, rank: 0, size: 50) [no direct children in export]
 - container: 77227974 (section, rank: 1, size: 50)
   - container: 77228056 (horizontal-section, rank: 0)
     - Left: 77228057 (section, size: 50, rank: 0)
@@ -263,9 +264,9 @@ Source: PC Template.json (provided)
     - Right: 77228029 (section, size: 50, rank: 1)
       - title: 77228032 "Focus Spells" (rank: 0)
         - widget: 77228059 number "Focus Spellcasting DC" 10 (rank: -6), formula: class_dc
+        - widget: 77228031 checkboxes "Focus Points" value=0 (rank: 0)
+          - widget: 77228038 number "focus_points-max" 1 (rank: 1)
         - title: 77228060 "Druid Order Spells" (rank: -5)
-          - widget: 77228031 checkboxes "Focus Points" value=0 (rank: 0)
-            - widget: 77228038 number "focus_points-max" 1 (rank: 1)
         - widget: 77228089 message "GoodBerry" (rank: -1)
 
 ---
@@ -279,7 +280,7 @@ Source: PC Template.json (provided)
 1) Create tabs (tab-section): Character 77228047, Inventory 77228044, Feats 77228046, Spells 77228045, Background 77228048.
 2) Character tab:
    - Add 77227847 horizontal-section; add sections 77227941 (left, size ~62.77) and 77227840 (right, size ~37.23).
-   - Left column: add Character Details 77227917 and its children (text/number fields). Add Ability Scores 77227822 and abilities with nested score numbers. Under Ability Scores add Combat Info 77228069 → add horizontal-section 77227882 with sub-sections 77227883/77227836 and their children as listed. Add Notes paragraph. Add Hero Points widget to the left column (parent 77227941).
+   - Left column: add Character Details 77227917 and its children (text/number fields). Add Ability Scores 77227822 and abilities with nested score numbers. Under Ability Scores add Combat Info 77228069 → add horizontal-section 77227882 with sub-sections 77227883/77227836 and their children as listed. Add Hero Points and Notes paragraph.
    - Right column: add Skills 77227823 and all skill-4 groups with pip checkboxes. Add Lores 77228093 and example lore 77228054. Add Appearance 77228084.
 3) Inventory tab:
    - Add 77227861 horizontal-section with sections 77227862 (left) and 77227863 (right).
@@ -291,6 +292,8 @@ Source: PC Template.json (provided)
 5) Spells tab:
    - Add title 77227992. Add horizontal-section 77228036 with sections 77228028 (left) and 77228029 (right).
    - Left: Primal Prepared Spells 77228030, add DC, then Cantrips/First/Second titles and child messages/slot checkboxes in rank order.
-   - Right: Focus Spells 77228032, add DC, then Druid Order Spells 77228060 containing Focus Points checkboxes + max; add GoodBerry message under Focus Spells.
+   - Right: Focus Spells 77228032, add DC, Focus Points checkboxes + max, Druid Order Spells title and GoodBerry message.
 6) Background tab:
    - Add the background paragraph.
+
+This map preserves every id, parentId, type, rank, and notable fields. It also reflects the exact column placement you highlighted (e.g., Skills on the right, Character Details on the left, Combat Info nested under Ability Scores with its own two-column split).

@@ -146,7 +146,7 @@ Pseudocode
     - for L in levels asc:
       - names = (type === "prepared") ? (idxPrepared[L] ?? idxKnown[L] ?? []) : (idxKnown[L] ?? [])
       - if !names.length: continue
-      - label = (L===0 ? "Cantrips" : "${ordinal(L)}")
+      - label = (L===0 ? "Cantrips" : `${ordinal(L)}`)
       - suffix = ""
       - if type==="spontaneous" && L>0 && finite(caster.perDay?.[L]) && caster.perDay[L] > 0:
           suffix = ` (Slots/day: ${caster.perDay[L]})`
