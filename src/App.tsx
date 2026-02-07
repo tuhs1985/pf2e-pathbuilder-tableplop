@@ -75,15 +75,33 @@ export function App() {
         <li>✅ Skills (all 16 core skills with proficiency pips)</li>
         <li>✅ Lores (dynamically added from Pathbuilder)</li>
       </ul>
+      <p><strong>Inventory Tab (Complete)</strong></p>
+      <ul>
+        <li>✅ Weapon Proficiencies (Simple, Martial, Advanced, Unarmed)</li>
+        <li>✅ Weapons (dynamic weapon entries with runes and damage formulas)</li>
+        <li>✅ Armor Proficiencies (Unarmored, Light, Medium, Heavy)</li>
+        <li>✅ Armor section (name, bonuses, runes, shield)</li>
+        <li>✅ Backpack (equipment list)</li>
+      </ul>
+      <p><strong>Feats Tab (Complete)</strong></p>
+      <ul>
+        <li>✅ Class & Ancestry Features (from specials)</li>
+        <li>✅ Class Feats (organized by level)</li>
+        <li>✅ Archetype (Free Archetype feats)</li>
+        <li>✅ Ancestry Paragon (special ancestry feats)</li>
+        <li>✅ Skill Feats (organized by level)</li>
+        <li>✅ General Feats (organized by level)</li>
+        <li>✅ Ancestry Feats (organized by level)</li>
+        <li>✅ Bonus Feats (awarded feats)</li>
+      </ul>
       <p><strong>Coming Soon</strong></p>
       <ul>
-        <li>Inventory tab (Weapon/Armor proficiencies, Weapons, Armor, Backpack)</li>
-        <li>Feats tab (Feats Summary)</li>
         <li>Spells tab (Spellcasting and Focus Spells)</li>
+        <li>Background tab (Background story/notes)</li>
       </ul>
       <p><strong>Notes</strong></p>
       <ul>
-        <li>Uses 8-digit ID ranges (Character: 10000000–29999999).</li>
+        <li>Uses 8-digit ID ranges (Character: 10M-29M, Inventory: 30M-49M, Feats: 50M-69M).</li>
         <li>If fetch is blocked by CORS, use a proxy or add a manual JSON paste flow.</li>
       </ul>
     </div>

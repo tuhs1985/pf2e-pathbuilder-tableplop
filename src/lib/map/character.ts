@@ -2,6 +2,7 @@ import type { PathbuilderBuild } from '../pathbuilder'
 import type { TableplopCharacter, TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
 import { buildInventoryProperties } from './inventory'
+import { buildFeatsProperties } from './feats'
 
 /**
  * Character tab (full):
@@ -356,6 +357,10 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   // Add Inventory tab and its properties
   const inventoryProps = buildInventoryProperties(build)
   inventoryProps.forEach(prop => props.push(prop))
+
+  // Add Feats tab and its properties
+  const featsProps = buildFeatsProperties(build)
+  featsProps.forEach(prop => props.push(prop))
 
   const character = {
     type: 'tableplop-character-v2' as const,

@@ -82,6 +82,8 @@ languages?: string[]
     runes?: string[]
   }>
   equipment?: Array<string | [string, number] | [string, number, string]>
+  feats?: Array<[string, string | null, string, number, string, string, null]>
+  specials?: string[]
 }
 
 export async function fetchPathbuilderBuild(id: string): Promise<PathbuilderBuild> {

@@ -321,7 +321,8 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   props.push({ id: newId(), parentId: armorSectionId, type: 'text', data: null, name: 'Shield Name', value: shieldName, rank: 4, characterId: null })
 
   // Shield Circumstance Bonus (from acTotal.shieldBonus)
-  const shieldBonus = parseInt(build.acTotal?.shieldBonus || '0') || 2
+  const shieldBonusRaw = build.acTotal?.shieldBonus
+  const shieldBonus = typeof shieldBonusRaw === 'number' ? shieldBonusRaw : parseInt(shieldBonusRaw || '0') || 2
   props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Shield Circumstance Bonus', value: shieldBonus, rank: 6, characterId: null })
 
   // Shield HP Max (player-fillable)
