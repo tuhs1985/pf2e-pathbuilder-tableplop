@@ -224,8 +224,16 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   const perceptionBonus = calcBonus(prof.perception ?? 0, mods.wis)
   addSave('Perception', 'perception', perceptionBonus, prof.perception ?? 0, 'wisdom', combatLeftId, -8, 'Perception : {1d20 + per}')
 
-  // Precise Senses (player-fillable)
-  props.push({ id: newId(), parentId: combatLeftId, type: 'text', data: null, name: 'Precise Senses', value: '', rank: -7, characterId: null })
+  // Precise Senses - extract vision types from specials
+  const specials = build.specials ?? []
+  const visionTypes = specials.filter(s => 
+    s.toLowerCase().includes('darkvision') || 
+    s.toLowerCase().includes('low-light vision') ||
+    s.toLowerCase().includes('lowlight vision') ||
+    s.toLowerCase().includes('low light vision')
+  )
+  const preciseSensesValue = visionTypes.join(', ')
+  props.push({ id: newId(), parentId: combatLeftId, type: 'text', data: null, name: 'Precise Senses', value: preciseSensesValue, rank: -7, characterId: null })
 
   // Saves (with -save suffix and updated ranks)
   const fortBonus = calcBonus(prof.fortitude ?? 0, mods.con)

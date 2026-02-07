@@ -82,7 +82,7 @@ languages?: string[]
     runes?: string[]
   }>
   equipment?: Array<string | [string, number] | [string, number, string]>
-  feats?: Array<[string, string | null, string, number, string, string, null]>
+  feats?: Array<[string, string | null, string, number, string, string, string | null]>
   specials?: string[]
 }
 

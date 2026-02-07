@@ -64,19 +64,14 @@ export function buildFeatsProperties(build: PathbuilderBuild): TableplopProperty
 
   // First pass: identify parent-child relationships and child feats to skip
   feats.forEach(feat => {
-    const [name, subChoice, type, level, slot, choiceType] = feat
+    const [name, subChoice, type, level, slot, choiceType, parentSlot] = feat
     if (choiceType === 'childChoice') {
       // This is a child feat, mark it to be skipped
       childFeats.add(name)
       
-      if (slot) {
-        // Extract parent slot from slot string
-        // Matches: "Magus Feat 8", "Free Archetype 4", "Ancestry Paragon 1"
-        const match = slot.match(/([A-Z][a-z]+ Feat \d+|Free Archetype \d+|Ancestry Paragon \d+)$/)
-        if (match && match[1]) {
-          const parentSlot = match[1]
-          parentChildMap.set(parentSlot, name)
-        }
+      // The 7th element (parentSlot) contains the parent's slot for child feats
+      if (parentSlot) {
+        parentChildMap.set(parentSlot, name)
       }
     }
   })
@@ -84,9 +79,6 @@ export function buildFeatsProperties(build: PathbuilderBuild): TableplopProperty
   // Second pass: process feats into sections
   feats.forEach(feat => {
     const [name, subChoice, type, level, slot, choiceType] = feat
-    
-    // Skip Heritage feats
-    if (type === 'Heritage') return
     
     // Skip child feats (they're added as part of their parent)
     if (childFeats.has(name)) return
@@ -105,7 +97,8 @@ export function buildFeatsProperties(build: PathbuilderBuild): TableplopProperty
       section = 'skill'
     } else if (type === 'General Feat') {
       section = 'general'
-    } else if (type === 'Ancestry Feat') {
+    } else if (type === 'Ancestry Feat' || type === 'Heritage') {
+      // Heritage feats are treated as Ancestry feats
       section = 'ancestry'
     } else if (type === 'Class Feat') {
       section = 'class'
@@ -168,92 +161,104 @@ export function buildFeatsProperties(build: PathbuilderBuild): TableplopProperty
     return (match && match[1]) ? match[1] : 'Class'
   }
 
-  // Class Feats
-  const classFeatsId = newId()
-  props.push({ id: classFeatsId, parentId: leftColId, type: 'title-section', data: { collapsed: true }, value: 'Class Feats', rank: 1, characterId: null })
+  // Class Feats (only if there are class feats)
+  if (sections.class.size > 0) {
+    const classFeatsId = newId()
+    props.push({ id: classFeatsId, parentId: leftColId, type: 'title-section', data: { collapsed: true }, value: 'Class Feats', rank: 1, characterId: null })
 
-  const classLevels = Array.from(sections.class.keys()).sort((a, b) => a - b)
-  classLevels.forEach(level => {
-    const feats = sections.class.get(level)!
-    feats.forEach(feat => {
-      const className = getClassNameFromSlot(feat.slot)
-      const name = `${className} ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: classFeatsId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const classLevels = Array.from(sections.class.keys()).sort((a, b) => a - b)
+    classLevels.forEach(level => {
+      const feats = sections.class.get(level)!
+      feats.forEach(feat => {
+        const className = getClassNameFromSlot(feat.slot)
+        const name = `${className} ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: classFeatsId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
-  // Archetype Feats
-  const archetypeId = newId()
-  props.push({ id: archetypeId, parentId: leftColId, type: 'title-section', data: { collapsed: true }, value: 'Archetype Feat', rank: 2, characterId: null })
+  // Archetype Feats (only if there are archetype feats)
+  if (sections.archetype.size > 0) {
+    const archetypeId = newId()
+    props.push({ id: archetypeId, parentId: leftColId, type: 'title-section', data: { collapsed: true }, value: 'Archetype Feat', rank: 2, characterId: null })
 
-  const archetypeLevels = Array.from(sections.archetype.keys()).sort((a, b) => a - b)
-  archetypeLevels.forEach(level => {
-    const feats = sections.archetype.get(level)!
-    feats.forEach(feat => {
-      const name = `Archetype ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: archetypeId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const archetypeLevels = Array.from(sections.archetype.keys()).sort((a, b) => a - b)
+    archetypeLevels.forEach(level => {
+      const feats = sections.archetype.get(level)!
+      feats.forEach(feat => {
+        const name = `Archetype ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: archetypeId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
   // ===== RIGHT COLUMN =====
 
-  // General Feats
-  const generalId = newId()
-  props.push({ id: generalId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'General Feat', rank: 0, characterId: null })
+  // General Feats (only if there are general feats)
+  if (sections.general.size > 0) {
+    const generalId = newId()
+    props.push({ id: generalId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'General Feat', rank: 0, characterId: null })
 
-  const generalLevels = Array.from(sections.general.keys()).sort((a, b) => a - b)
-  generalLevels.forEach(level => {
-    const feats = sections.general.get(level)!
-    feats.forEach(feat => {
-      const name = `General ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: generalId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const generalLevels = Array.from(sections.general.keys()).sort((a, b) => a - b)
+    generalLevels.forEach(level => {
+      const feats = sections.general.get(level)!
+      feats.forEach(feat => {
+        const name = `General ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: generalId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
-  // Skill Feats
-  const skillId = newId()
-  props.push({ id: skillId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Skill Feat', rank: 1, characterId: null })
+  // Skill Feats (only if there are skill feats)
+  if (sections.skill.size > 0) {
+    const skillId = newId()
+    props.push({ id: skillId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Skill Feat', rank: 1, characterId: null })
 
-  const skillLevels = Array.from(sections.skill.keys()).sort((a, b) => a - b)
-  skillLevels.forEach(level => {
-    const feats = sections.skill.get(level)!
-    feats.forEach(feat => {
-      const name = `Skill ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: skillId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const skillLevels = Array.from(sections.skill.keys()).sort((a, b) => a - b)
+    skillLevels.forEach(level => {
+      const feats = sections.skill.get(level)!
+      feats.forEach(feat => {
+        const name = `Skill ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: skillId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
-  // Ancestry Feats
-  const ancestryId = newId()
-  props.push({ id: ancestryId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Ancestry Feat', rank: 2, characterId: null })
+  // Ancestry Feats (only if there are ancestry feats)
+  if (sections.ancestry.size > 0) {
+    const ancestryId = newId()
+    props.push({ id: ancestryId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Ancestry Feat', rank: 2, characterId: null })
 
-  const ancestryLevels = Array.from(sections.ancestry.keys()).sort((a, b) => a - b)
-  ancestryLevels.forEach(level => {
-    const feats = sections.ancestry.get(level)!
-    feats.forEach(feat => {
-      const name = `Ancestry ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: ancestryId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const ancestryLevels = Array.from(sections.ancestry.keys()).sort((a, b) => a - b)
+    ancestryLevels.forEach(level => {
+      const feats = sections.ancestry.get(level)!
+      feats.forEach(feat => {
+        const name = `Ancestry ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: ancestryId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
-  // Ancestry Paragon
-  const ancestryParagonId = newId()
-  props.push({ id: ancestryParagonId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Ancestry Paragon', rank: 3, characterId: null })
+  // Ancestry Paragon (only if there are ancestry paragon feats)
+  if (sections.ancestryParagon.size > 0) {
+    const ancestryParagonId = newId()
+    props.push({ id: ancestryParagonId, parentId: rightColId, type: 'title-section', data: { collapsed: true }, value: 'Ancestry Paragon', rank: 3, characterId: null })
 
-  const ancestryParagonLevels = Array.from(sections.ancestryParagon.keys()).sort((a, b) => a - b)
-  ancestryParagonLevels.forEach(level => {
-    const feats = sections.ancestryParagon.get(level)!
-    feats.forEach(feat => {
-      const name = `Ancestry Paragon ${level}`
-      const value = formatFeatValue(feat)
-      props.push({ id: newId(), parentId: ancestryParagonId, type: 'text', data: null, name, value, rank: level, characterId: null })
+    const ancestryParagonLevels = Array.from(sections.ancestryParagon.keys()).sort((a, b) => a - b)
+    ancestryParagonLevels.forEach(level => {
+      const feats = sections.ancestryParagon.get(level)!
+      feats.forEach(feat => {
+        const name = `Ancestry Paragon ${level}`
+        const value = formatFeatValue(feat)
+        props.push({ id: newId(), parentId: ancestryParagonId, type: 'text', data: null, name, value, rank: level, characterId: null })
+      })
     })
-  })
+  }
 
   // Bonus Feats
   if (sections.bonus.size > 0) {
