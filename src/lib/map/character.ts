@@ -237,7 +237,7 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   function addSave(label: string, name: string, bonus: number, profValue: number, abilityKey: string, parentId: number, rank: number, message?: string) {
     const saveId = newId()
     const abilityName = abilityKey.toLowerCase().substring(0, 3) // 'wis', 'con', 'dex', etc.
-    const formula = `level + ${abilityName} + (${name}-trained ? 2 : 0) + (${name}-expert ? 2 : 0) + (${name}-master ? 2 : 0) + (${name}-legendary ? 2 : 0)`
+    const formula = `level + ${abilityName} + (${name}-trained ? 2 : 0) + (${name}-expert ? 2 : 0) + (${name}-master ? 2 : 0) + (${name}-legendary ? 2 : 0) + resilient_rune`
     props.push({ id: saveId, parentId, type: 'skill-4', data: { subtitle: '' }, name: label, value: bonus, rank, formula, message, characterId: null })
     const trained = profValue >= 2
     const expert = profValue >= 4
@@ -259,7 +259,7 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
 
   // AC
   const ac = build.acTotal?.acTotal ?? 10
-  props.push({ id: newId(), parentId: combatRightId, type: 'number', data: null, name: 'Armor Class', value: ac, rank: 0, formula: '10 + item-bonus + dexterity + proficiency + circumstance_bonus', characterId: null })
+  props.push({ id: newId(), parentId: combatRightId, type: 'number', data: null, name: 'Armor Class', value: ac, rank: 0, formula: '10+ac_bonus+(Shield_Raised ? shield_circumstance_bonus : 0)', characterId: null })
   
   // Shield Raised (below AC)
   props.push({ id: newId(), parentId: combatRightId, type: 'checkbox', data: null, name: 'Shield Raised', value: false, rank: 2, characterId: null })

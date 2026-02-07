@@ -10,6 +10,49 @@ import { makeIdAllocator } from '../idAllocator'
  * - Armor section (name, AC bonus, item bonus, dex cap, potency/resilient runes, shield)
  * - Backpack (paragraph list)
  */
+
+// Basic armor lookup table (Name -> {itemBonus, dexCap})
+const BASIC_ARMOR_DATA: Record<string, {itemBonus: number, dexCap: number}> = {
+  'gi': {itemBonus: 0, dexCap: 5},
+  'scroll robes': {itemBonus: 0, dexCap: 5},
+  'unarmored': {itemBonus: 0, dexCap: 5},
+  'explorer\'s clothing': {itemBonus: 0, dexCap: 5},
+  'leaf weave': {itemBonus: 1, dexCap: 4},
+  'leather lamellar': {itemBonus: 1, dexCap: 4},
+  'armored cloak': {itemBonus: 1, dexCap: 3},
+  'padded armor': {itemBonus: 1, dexCap: 3},
+  'leather armor': {itemBonus: 1, dexCap: 4},
+  'rattan armor': {itemBonus: 1, dexCap: 4},
+  'armored coat': {itemBonus: 2, dexCap: 2},
+  'buckle armor': {itemBonus: 2, dexCap: 3},
+  'mantis shell': {itemBonus: 2, dexCap: 3},
+  'quilted armor': {itemBonus: 2, dexCap: 2},
+  'studded leather armor': {itemBonus: 2, dexCap: 3},
+  'chain shirt': {itemBonus: 2, dexCap: 3},
+  'kilted breastplate': {itemBonus: 2, dexCap: 3},
+  'sankeit': {itemBonus: 2, dexCap: 3},
+  'ceramic plate': {itemBonus: 3, dexCap: 2},
+  'coral armor': {itemBonus: 3, dexCap: 2},
+  'wooden breastplate': {itemBonus: 3, dexCap: 2},
+  'hide armor': {itemBonus: 3, dexCap: 2},
+  'scale mail': {itemBonus: 3, dexCap: 2},
+  'niyaháat': {itemBonus: 3, dexCap: 2},
+  'hellknight breastplate': {itemBonus: 4, dexCap: 1},
+  'lamellar breastplate': {itemBonus: 4, dexCap: 1},
+  'chain mail': {itemBonus: 4, dexCap: 1},
+  'breastplate': {itemBonus: 4, dexCap: 1},
+  'lattice armor': {itemBonus: 4, dexCap: 1},
+  'hellknight half plate': {itemBonus: 5, dexCap: 1},
+  'splint mail': {itemBonus: 5, dexCap: 1},
+  'half plate': {itemBonus: 5, dexCap: 1},
+  'gray maiden plate': {itemBonus: 6, dexCap: 0},
+  'bastion plate': {itemBonus: 6, dexCap: 0},
+  'fortress plate': {itemBonus: 6, dexCap: 0},
+  'hellknight plate': {itemBonus: 6, dexCap: 0},
+  'o-yoroi': {itemBonus: 6, dexCap: 0},
+  'full plate': {itemBonus: 6, dexCap: 0}
+}
+
 export function buildInventoryProperties(build: PathbuilderBuild): TableplopProperty[] {
 const newId = makeIdAllocator('Inventory')
 const level = build.level ?? 1
@@ -53,7 +96,7 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   addWeaponProf('Simple Weapons', 'simple_weapons', prof.simple ?? 0, 0)
   addWeaponProf('Martial Weapons', 'martial_weapons', prof.martial ?? 0, 1)
   addWeaponProf('Advanced Weapons', 'advanced_weapons', prof.advanced ?? 0, 2)
-  addWeaponProf('Unarmed Attacks', 'unarmed', prof.unarmed ?? 0, -1)
+  addWeaponProf('Unarmed Attacks', 'unarmed_attacks', prof.unarmed ?? 0, -1)
 
   // Weapons section
   const weaponsId = newId()
@@ -135,6 +178,37 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
     props.push({ id: newId(), parentId: strikingId, type: 'number', data: null, name: `striking_rune_${weaponNum}-max`, value: 3, rank: 1, characterId: null })
   })
 
+  // Add default Fist attack if no weapons
+  if (weapons.length === 0) {
+    const fistTitleId = newId()
+    props.push({ id: fistTitleId, parentId: weaponsId, type: 'title-section', data: null, value: 'Weapon 1', rank: -3, characterId: null })
+
+    // Fist message - uses higher of Str or Dex
+    const fistMessage = 'Fist: To hit {1d20+(str>dex?str:dex)+unarmed_attacks+potency_rune_1}, Damage: {@:striking_rune_1+1:1d4+(str>dex?str:dex)+class_dmg+other_dmg}'
+    props.push({ id: newId(), parentId: fistTitleId, type: 'message', data: null, name: 'Fist', message: fistMessage, icon: '/images/message.png', rank: 0, characterId: null })
+
+    // No property runes for default fist
+    props.push({ id: newId(), parentId: fistTitleId, type: 'text', data: null, name: 'Property Runes', value: '', rank: 1, characterId: null })
+
+    // Horizontal-section for runes
+    const runeRowId = newId()
+    const runeLeftId = newId()
+    const runeRightId = newId()
+    props.push({ id: runeRowId, parentId: fistTitleId, type: 'horizontal-section', rank: 2, characterId: null })
+    props.push({ id: runeLeftId, parentId: runeRowId, type: 'section', data: {}, size: 50, rank: 0, characterId: null })
+    props.push({ id: runeRightId, parentId: runeRowId, type: 'section', data: {}, size: 50, rank: 1, characterId: null })
+
+    // Potency Rune checkboxes (default 0)
+    const potencyId = newId()
+    props.push({ id: potencyId, parentId: runeLeftId, type: 'checkboxes', data: null, name: 'Potency Rune 1', value: 0, rank: 0, characterId: null })
+    props.push({ id: newId(), parentId: potencyId, type: 'number', data: null, name: 'potency_rune_1-max', value: 3, rank: 1, characterId: null })
+
+    // Striking Rune checkboxes (default 0)
+    const strikingId = newId()
+    props.push({ id: strikingId, parentId: runeRightId, type: 'checkboxes', data: null, name: 'Striking Rune 1', value: 0, rank: 0, characterId: null })
+    props.push({ id: newId(), parentId: strikingId, type: 'number', data: null, name: 'striking_rune_1-max', value: 3, rank: 1, characterId: null })
+  }
+
   // ===== RIGHT COLUMN =====
 
   // Armor Proficiencies
@@ -168,9 +242,10 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   // Armor heading
   props.push({ id: newId(), parentId: armorSectionId, type: 'heading', data: null, value: 'Armor', rank: -6, characterId: null })
 
-  // Armor name
-  const armor = build.armor && build.armor.length > 0 ? build.armor[0] : null
-  const armorName = armor?.name || ''
+  // Find worn armor (exclude shields)
+  const armorArray = build.armor ?? []
+  const wornArmor = armorArray.find(a => a.worn && a.prof !== 'shield')
+  const armorName = wornArmor?.display || wornArmor?.name || ''
   props.push({ id: newId(), parentId: armorSectionId, type: 'text', data: null, name: 'Armor Name', value: armorName, rank: -5, characterId: null })
 
   // Armor type checkboxes (horizontal-section)
@@ -182,7 +257,7 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   props.push({ id: armorTypeRightId, parentId: armorTypeRowId, type: 'section', data: {}, size: 50, rank: 1, characterId: null })
 
   // Determine armor type
-  const armorProf = armor?.prof || 'unarmored'
+  const armorProf = wornArmor?.prof || 'unarmored'
   props.push({ id: newId(), parentId: armorTypeLeftId, type: 'checkbox', data: null, name: 'Light-Armor', value: armorProf === 'light', rank: 0, characterId: null })
   props.push({ id: newId(), parentId: armorTypeLeftId, type: 'checkbox', data: null, name: 'Not-Armor', value: armorProf === 'unarmored', rank: 1, characterId: null })
   props.push({ id: newId(), parentId: armorTypeRightId, type: 'checkbox', data: null, name: 'Heavy-Armor', value: armorProf === 'heavy', rank: 0, characterId: null })
@@ -190,23 +265,46 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
 
   // AC Bonus (calculated from formula)
   props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'AC Bonus', value: 0, rank: -3, formula: 'item_bonus+ (dexterity>dexterity_cap ?dexterity_cap : dexterity) +not-armor*unarmored+light-armor*light_+medium-armor*medium_+heavy-armor*heavy_+armor_potency', characterId: null })
+  
+  // Item Bonus - lookup from table or use fallback based on proficiency
+  let baseItemBonus = 0
+  let baseDexCap = 5
+  
+  // Use 'name' field for lookup (no rune prefix), not 'display'
+  const armorLookupName = (wornArmor?.name || '').toLowerCase()
+  const armorData = BASIC_ARMOR_DATA[armorLookupName]
+  
+  if (armorData) {
+    // Found in table
+    baseItemBonus = armorData.itemBonus
+    baseDexCap = armorData.dexCap
+  } else {
+    // Fallback based on proficiency
+    const fallbackMap: Record<string, {itemBonus: number, dexCap: number}> = {
+      'heavy': {itemBonus: 5, dexCap: 1},
+      'medium': {itemBonus: 3, dexCap: 2},
+      'light': {itemBonus: 1, dexCap: 4},
+      'unarmored': {itemBonus: 0, dexCap: 5}
+    }
+    const fallback = fallbackMap[armorProf] || {itemBonus: 0, dexCap: 5}
+    baseItemBonus = fallback.itemBonus
+    baseDexCap = fallback.dexCap
+  }
+  
+  // Item bonus is just the base armor bonus (formula will add armor_potency)
+  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Item Bonus', value: baseItemBonus, rank: -2, characterId: null })
 
-  // Item Bonus
-  const itemBonus = armor?.pot ?? 0
-  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Item Bonus', value: itemBonus, rank: -2, characterId: null })
-
-  // Dexterity Cap (player-fillable, but we can infer from armor type)
-  const dexCapMap: Record<string, number> = { unarmored: 99, light: 5, medium: 3, heavy: 0 }
-  const dexCap = dexCapMap[armorProf] ?? 0
-  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Dexterity Cap', value: dexCap, rank: -1, characterId: null })
+  // Dexterity Cap
+  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Dexterity Cap', value: baseDexCap, rank: -1, characterId: null })
 
   // Armor Potency Rune
+  const armorPotency = wornArmor?.pot ?? 0
   const armorPotencyId = newId()
-  props.push({ id: armorPotencyId, parentId: armorSectionId, type: 'checkboxes', data: null, name: 'Armor Potency Rune', value: itemBonus, rank: 0, characterId: null })
+  props.push({ id: armorPotencyId, parentId: armorSectionId, type: 'checkboxes', data: null, name: 'Armor Potency Rune', value: armorPotency, rank: 0, characterId: null })
   props.push({ id: newId(), parentId: armorPotencyId, type: 'number', data: null, name: 'armor_potency_rune-max', value: 3, rank: 1, characterId: null })
 
   // Resilient Rune (from armor runes array)
-  const resilientValue = armor?.runes?.includes('resilient') ? 1 : armor?.runes?.includes('greaterResilient') ? 2 : armor?.runes?.includes('majorResilient') ? 3 : 0
+  const resilientValue = wornArmor?.runes?.includes('resilient') ? 1 : wornArmor?.runes?.includes('greaterResilient') ? 2 : wornArmor?.runes?.includes('majorResilient') ? 3 : 0
   const resilientId = newId()
   props.push({ id: resilientId, parentId: armorSectionId, type: 'checkboxes', data: null, name: 'Resilient Rune', value: resilientValue, rank: 1, characterId: null })
   props.push({ id: newId(), parentId: resilientId, type: 'number', data: null, name: 'resilient_rune-max', value: 3, rank: 1, characterId: null })
@@ -217,11 +315,14 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   // Shield heading
   props.push({ id: newId(), parentId: armorSectionId, type: 'heading', data: null, value: 'Shield', rank: 3, characterId: null })
 
-  // Shield Name (player-fillable)
-  props.push({ id: newId(), parentId: armorSectionId, type: 'text', data: null, name: 'Shield Name', value: '', rank: 4, characterId: null })
+  // Find worn shield
+  const wornShield = armorArray.find(a => a.worn && a.prof === 'shield')
+  const shieldName = wornShield?.name || ''
+  props.push({ id: newId(), parentId: armorSectionId, type: 'text', data: null, name: 'Shield Name', value: shieldName, rank: 4, characterId: null })
 
-  // Shield Circumstance Bonus (player-fillable)
-  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Shield Circumstance Bonus', value: 2, rank: 6, characterId: null })
+  // Shield Circumstance Bonus (from acTotal.shieldBonus)
+  const shieldBonus = parseInt(build.acTotal?.shieldBonus || '0') || 2
+  props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Shield Circumstance Bonus', value: shieldBonus, rank: 6, characterId: null })
 
   // Shield HP Max (player-fillable)
   props.push({ id: newId(), parentId: armorSectionId, type: 'number', data: null, name: 'Shield HP Max', value: 0, rank: 7, characterId: null })
@@ -233,13 +334,31 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   const backpackId = newId()
   props.push({ id: backpackId, parentId: rightColId, type: 'title-section', data: { collapsed: false }, value: 'Backpack', rank: 5, characterId: null })
 
-  // Backpack paragraph (list items from build.equipment)
+  // Collect all backpack items
+  const backpackItems: string[] = []
+  
+  // Add unworn armor and shields (append " Armor" to armor)
+  armorArray.forEach(armorItem => {
+    if (!armorItem.worn) {
+      let itemName = armorItem.display || armorItem.name || 'Unknown'
+      // Append " Armor" to armor (not shields)
+      if (armorItem.prof !== 'shield' && !itemName.toLowerCase().includes('armor')) {
+        itemName += ' Armor'
+      }
+      backpackItems.push(itemName)
+    }
+  })
+  
+  // Add equipment
   const equipment = build.equipment ?? []
-  if (equipment.length > 0) {
-    const items = equipment.map(item => {
-      const name = Array.isArray(item) ? item[0] : item
-      return `<li>${name}</li>`
-    }).join('')
+  equipment.forEach(item => {
+    const name = Array.isArray(item) ? item[0] : item
+    backpackItems.push(name)
+  })
+
+  // Generate backpack HTML
+  if (backpackItems.length > 0) {
+    const items = backpackItems.map(item => `<li>${item}</li>`).join('')
     const backpackHTML = `<ul>${items}</ul>`
     props.push({ id: newId(), parentId: backpackId, type: 'paragraph', data: null, value: backpackHTML, rank: 0, characterId: null })
   } else {
