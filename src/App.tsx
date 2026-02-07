@@ -24,12 +24,25 @@ export function App() {
 
   function handleDownload() {
     if (!preview) return
-    downloadJson(preview, `tableplop-character-${pbId || 'export'}.json`)
+    
+    // Extract character name from preview
+    const nameProp = preview.properties?.find((p: any) => p.name === 'Name')
+    const characterName = nameProp?.value || 'Character'
+    
+    // Sanitize character name for filename (remove/replace invalid characters)
+    const sanitizedName = characterName
+      .replace(/[<>:"/\\|?*\x00-\x1f]/g, '') // Remove invalid Windows filename characters
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .trim()
+      .substring(0, 50) // Limit length to avoid overly long filenames
+    
+    const filename = `tableplop_${sanitizedName}_${pbId || 'export'}.json`
+    downloadJson(preview, filename)
   }
 
   return (
     <div style={{ maxWidth: 900, margin: '2rem auto', fontFamily: 'system-ui, sans-serif' }}>
-      <h1>Pathbuilder 2e → Tableplop Exporter (Character tab MVP)</h1>
+      <h1>Pathbuilder 2e → Tableplop Exporter</h1>
       <p>Enter a Pathbuilder JSON ID. Example: 182461</p>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <input
@@ -54,11 +67,24 @@ export function App() {
         </details>
       )}
       <hr/>
+      <p><strong>Character Tab (Complete)</strong></p>
+      <ul>
+        <li>✅ Character Details (Name, Ancestry, Heritage, Class, Background, Level, Experience)</li>
+        <li>✅ Ability Scores (all 6 abilities with formulas)</li>
+        <li>✅ Combat Info (HP, AC, Speed, Saves, Perception, Class DC, Languages)</li>
+        <li>✅ Skills (all 16 core skills with proficiency pips)</li>
+        <li>✅ Lores (dynamically added from Pathbuilder)</li>
+      </ul>
+      <p><strong>Coming Soon</strong></p>
+      <ul>
+        <li>Inventory tab (Weapon/Armor proficiencies, Weapons, Armor, Backpack)</li>
+        <li>Feats tab (Feats Summary)</li>
+        <li>Spells tab (Spellcasting and Focus Spells)</li>
+      </ul>
       <p><strong>Notes</strong></p>
       <ul>
         <li>Uses 8-digit ID ranges (Character: 10000000–29999999).</li>
-        <li>Only Character tab → Character Details + Ability Scores for now.</li>
-        <li>If fetch is blocked by CORS, you can proxy or add a manual JSON paste flow.</li>
+        <li>If fetch is blocked by CORS, use a proxy or add a manual JSON paste flow.</li>
       </ul>
     </div>
   )

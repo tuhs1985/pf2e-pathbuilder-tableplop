@@ -1,11 +1,19 @@
 export type TableplopType =
-  | 'tab-section'
-  | 'horizontal-section'
-  | 'section'
-  | 'title-section'
-  | 'text'
-  | 'number'
-  | 'ability'
+| 'tab-section'
+| 'horizontal-section'
+| 'section'
+| 'title-section'
+| 'text'
+| 'number'
+| 'ability'
+| 'health'
+| 'skill-4'
+| 'checkbox'
+| 'paragraph'
+| 'checkboxes'
+| 'appearance'
+| 'message'
+| 'heading'
 
 export interface TableplopProperty {
   id: number
@@ -19,7 +27,7 @@ export interface TableplopProperty {
   formula?: string
   message?: string
   icon?: string
-  characterId: null
+  characterId: number | null
 }
 
 export interface TableplopCharacter {
