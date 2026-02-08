@@ -311,8 +311,10 @@ props.push({ id: rightColId, parentId: mainRowId, type: 'section', data: {}, siz
   props.push({ id: resilientId, parentId: armorSectionId, type: 'checkboxes', data: null, name: 'Resilient Rune', value: resilientValue, rank: 1, characterId: null })
   props.push({ id: newId(), parentId: resilientId, type: 'number', data: null, name: 'resilient_rune-max', value: 3, rank: 1, characterId: null })
 
-  // Other Runes (placeholder paragraph)
-  props.push({ id: newId(), parentId: armorSectionId, type: 'paragraph', data: null, value: '<ul><li>Other Runes</li></ul>', rank: 2, characterId: null })
+  // Other Runes (populated from worn armor runes array)
+  const armorRunes = wornArmor?.runes || []
+  const otherRunesText = armorRunes.length > 0 ? armorRunes.join(', ') : ''
+  props.push({ id: newId(), parentId: armorSectionId, type: 'text', data: null, name: 'Other Runes', value: otherRunesText, rank: 2, characterId: null })
 
   // Shield heading
   props.push({ id: newId(), parentId: armorSectionId, type: 'heading', data: null, value: 'Shield', rank: 3, characterId: null })

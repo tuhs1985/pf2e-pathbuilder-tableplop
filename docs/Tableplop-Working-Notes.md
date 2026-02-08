@@ -273,3 +273,31 @@ Additional notes
   - message strings used for weapon or spell rolls (attacks/damage) — preserve them exactly.
   - Any field with formula — preserve formula syntax verbatim (names matter).
   - Duplicate id handling: avoid duplicates — Tableplop may import but not render duplicates.
+  
+  
+- filter-list (collapsible/filterable container)
+  - Purpose: container that makes child items collapsible and filterable in the UI.
+  - Required: type="filter-list", parentId (typically a title-section).
+  - Children: ONLY message items directly. Do NOT nest title-section or other containers under filter-list.
+  
+  - Correct hierarchy:
+    ```
+    title-section (e.g., "Attacks")
+      └─ filter-list
+         ├─ message (weapon 1)
+         ├─ message (weapon 2)
+         └─ message (weapon 3)
+    ```
+  
+  - INCORRECT hierarchy (breaks the sheet):
+    ```
+    title-section (e.g., "Weapons")
+      └─ filter-list
+         ├─ title-section (Weapon 1)  ❌ WRONG - breaks rendering
+         └─ title-section (Weapon 2)  ❌ WRONG - breaks rendering
+    ```
+  
+  - Warning: Using filter-list with title-section children will break the character sheet rendering. Filter-lists are meant for flat lists of message items only.
+  - Observed behavior: When you incorrectly nest title-sections under filter-list, Tableplop will import the JSON but the sheet will not render properly in the UI.
+
+---
