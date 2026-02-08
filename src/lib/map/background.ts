@@ -51,7 +51,7 @@ export function buildBackgroundProperties(build: PathbuilderBuild): TableplopPro
 
   // Hidden Values section
   const hiddenValuesId = newId()
-  props.push({ id: hiddenValuesId, parentId: backgroundTabId, type: 'title-section', data: { collapsed: false }, private: true, value: 'Hidden Values', rank: -12, characterId: null })
+  props.push({ id: hiddenValuesId, parentId: backgroundTabId, type: 'title-section', data: { collapsed: false }, value: 'Hidden Values', rank: -12, characterId: null })
 
   // Horizontal section for two columns
   const hiddenRowId = newId()
