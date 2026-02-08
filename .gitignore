@@ -15,6 +15,7 @@ dist-ssr
 # Working directories
 scripts
 examples
+output
 
 # Editor directories and files
 .vscode/*

@@ -30,5 +30,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/pf2e-pathbuilder-tableplop/', // keep this as your deployment expects
+  base: '/', // keep this as your deployment expects
 });
