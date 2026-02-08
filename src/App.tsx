@@ -41,76 +41,125 @@ export function App() {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: '2rem auto', fontFamily: 'system-ui, sans-serif' }}>
-      <h1>Pathbuilder 2e → Tableplop Exporter</h1>
-      <p>Enter a Pathbuilder JSON ID. Example: 182461</p>
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <input
-          value={pbId}
-          onChange={e => setPbId(e.target.value)}
-          placeholder="Pathbuilder ID"
-          inputMode="numeric"
-          style={{ flex: 1, padding: '0.5rem', fontSize: '1rem' }}
-        />
-        <button onClick={handleFetch} style={{ padding: '0.5rem 1rem' }}>Fetch & Map</button>
-        <button onClick={handleDownload} disabled={!preview} style={{ padding: '0.5rem 1rem' }}>
-          Download JSON
-        </button>
+    <div className="app-container">
+      <div className="app-inner">
+        <div className="main-card">
+          <h1 className="card-title">Pathbuilder 2e → Tableplop Exporter</h1>
+          
+          <p className="card-subtitle">
+            Enter a Pathbuilder JSON ID. Example: 182461
+          </p>
+          
+          <div className="input-group">
+            <input
+              value={pbId}
+              onChange={e => setPbId(e.target.value)}
+              placeholder="Pathbuilder ID"
+              inputMode="numeric"
+            />
+            <button onClick={handleFetch}>
+              Fetch & Map
+            </button>
+            <button onClick={handleDownload} disabled={!preview}>
+              Download JSON
+            </button>
+          </div>
+          
+          {status && (
+            <p className="status-message">{status}</p>
+          )}
+        </div>
+
+        {preview && (
+          <details open className="preview-section">
+            <summary>Preview (first 30 properties)</summary>
+            <pre>
+              {JSON.stringify({ ...preview, properties: preview.properties.slice(0, 30) }, null, 2)}
+            </pre>
+          </details>
+        )}
+
+        <div className="features-card">
+          <h2>Features</h2>
+          
+          <div className="features-grid">
+            <div className="feature-section complete">
+              <h3>Character Tab (Complete)</h3>
+              <ul>
+                <li>✅ Character Details (Name, Ancestry, Heritage, Class, Background, Level, Experience)</li>
+                <li>✅ Ability Scores (all 6 abilities with formulas)</li>
+                <li>✅ Combat Info (HP with Max HP formula, AC, Speed, Saves, Perception, Class DC, Languages)</li>
+                <li>✅ Skills (all 16 core skills with proficiency pips)</li>
+                <li>✅ Lores (dynamically added from Pathbuilder)</li>
+                <li>✅ Max HP formula: (class_hp+con)*level + ancestry_hp + level*hp_per_level + bonus_hp</li>
+              </ul>
+            </div>
+
+            <div className="feature-section complete">
+              <h3>Inventory Tab (Complete)</h3>
+              <ul>
+                <li>✅ Weapon Proficiencies (Simple, Martial, Advanced, Unarmed)</li>
+                <li>✅ Weapons (dynamic weapon entries with runes and damage formulas)</li>
+                <li>✅ Armor Proficiencies (Unarmored, Light, Medium, Heavy)</li>
+                <li>✅ Armor section (name, bonuses, runes, shield)</li>
+                <li>✅ Backpack (equipment list)</li>
+              </ul>
+            </div>
+
+            <div className="feature-section complete">
+              <h3>Feats Tab (Complete)</h3>
+              <ul>
+                <li>✅ Class & Ancestry Features (from specials)</li>
+                <li>✅ Class Feats (organized by level)</li>
+                <li>✅ Archetype (Free Archetype feats)</li>
+                <li>✅ Ancestry Paragon (special ancestry feats)</li>
+                <li>✅ Skill Feats (organized by level)</li>
+                <li>✅ General Feats (organized by level)</li>
+                <li>✅ Ancestry Feats (organized by level)</li>
+                <li>✅ Bonus Feats (awarded feats)</li>
+              </ul>
+            </div>
+
+            <div className="feature-section complete">
+              <h3>Background Tab (Complete)</h3>
+              <ul>
+                <li>✅ About section (comprehensive user guide with armor/shield notes)</li>
+                <li>✅ Hidden Values (HP modifiers: Ancestry HP, Class HP, HP per Level, Bonus HP)</li>
+                <li>✅ Combat Modifiers (Armor-Class field used by AC above tabs, Class dmg bonus, Other dmg bonus)</li>
+                <li>✅ Class damage bonus calculated upon conversion from Weapon Specialization</li>
+              </ul>
+            </div>
+
+            <div className="feature-section coming-soon">
+              <h3>Coming Soon</h3>
+              <ul>
+                <li>Spells tab (Spellcasting and Focus Spells)</li>
+              </ul>
+            </div>
+
+            <div className="feature-section notes">
+              <h3>Notes</h3>
+              <ul>
+                <li>Uses 8-digit ID ranges (Character: 10M-29M, Inventory: 30M-49M, Feats: 50M-69M, Background: 90M-99M)</li>
+                <li>If fetch is blocked by CORS, use a proxy or add a manual JSON paste flow</li>
+              </ul>
+            </div>
+          </div>
+
+          <footer className="app-footer">
+            <p>
+              Part of the{' '}
+              <a 
+                href="https://tools.tuhsrpg.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                TUHS RPG Tools Suite
+              </a>
+            </p>
+          </footer>
+        </div>
       </div>
-      <p>{status}</p>
-      {preview && (
-        <details open>
-          <summary>Preview (first 30 properties)</summary>
-          <pre style={{ background: '#111', color: '#ddd', padding: '1rem', overflow: 'auto', maxHeight: '50vh' }}>
-            {JSON.stringify({ ...preview, properties: preview.properties.slice(0, 30) }, null, 2)}
-          </pre>
-        </details>
-      )}
-      <hr/>
-      <p><strong>Character Tab (Complete)</strong></p>
-      <ul>
-        <li>✅ Character Details (Name, Ancestry, Heritage, Class, Background, Level, Experience)</li>
-        <li>✅ Ability Scores (all 6 abilities with formulas)</li>
-        <li>✅ Combat Info (HP with Max HP formula, AC, Speed, Saves, Perception, Class DC, Languages)</li>
-        <li>✅ Skills (all 16 core skills with proficiency pips)</li>
-        <li>✅ Lores (dynamically added from Pathbuilder)</li>
-        <li>✅ Max HP formula: (class_hp+con)*level + ancestry_hp + level*hp_per_level + bonus_hp</li>
-      </ul>
-      <p><strong>Inventory Tab (Complete)</strong></p>
-      <ul>
-        <li>✅ Weapon Proficiencies (Simple, Martial, Advanced, Unarmed)</li>
-        <li>✅ Weapons (dynamic weapon entries with runes and damage formulas)</li>
-        <li>✅ Armor Proficiencies (Unarmored, Light, Medium, Heavy)</li>
-        <li>✅ Armor section (name, bonuses, runes, shield)</li>
-        <li>✅ Backpack (equipment list)</li>
-      </ul>
-      <p><strong>Feats Tab (Complete)</strong></p>
-      <ul>
-        <li>✅ Class & Ancestry Features (from specials)</li>
-        <li>✅ Class Feats (organized by level)</li>
-        <li>✅ Archetype (Free Archetype feats)</li>
-        <li>✅ Ancestry Paragon (special ancestry feats)</li>
-        <li>✅ Skill Feats (organized by level)</li>
-        <li>✅ General Feats (organized by level)</li>
-        <li>✅ Ancestry Feats (organized by level)</li>
-        <li>✅ Bonus Feats (awarded feats)</li>
-      </ul>
-      <p><strong>Background Tab (Complete)</strong></p>
-      <ul>
-        <li>✅ About section (comprehensive user guide with armor/shield notes)</li>
-        <li>✅ Hidden Values (HP modifiers: Ancestry HP, Class HP, HP per Level, Bonus HP)</li>
-        <li>✅ Combat Modifiers (Armor-Class field used by AC above tabs, Class dmg bonus, Other dmg bonus)</li>
-        <li>✅ Class damage bonus calculated upon conversion from Weapon Specialization</li>
-      </ul>
-      <p><strong>Coming Soon</strong></p>
-      <ul>
-        <li>Spells tab (Spellcasting and Focus Spells)</li>
-      </ul>
-      <p><strong>Notes</strong></p>
-      <ul>
-        <li>Uses 8-digit ID ranges (Character: 10M-29M, Inventory: 30M-49M, Feats: 50M-69M).</li>
-        <li>If fetch is blocked by CORS, use a proxy or add a manual JSON paste flow.</li>
-      </ul>
     </div>
   )
 }
