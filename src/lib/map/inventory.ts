@@ -3,13 +3,15 @@ import type { TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
 
 /**
- * Inventory tab:
- * - Weapon Proficiencies (skill-4 widgets)
- * - Weapons (dynamic, one title-section per weapon with message + rune checkboxes)
- * - Armor Proficiencies (skill-4 widgets)
- * - Armor section (name, AC bonus, item bonus, dex cap, potency/resilient runes, shield)
- * - Backpack (paragraph list)
- */
+* Inventory tab:
+* - Weapon Proficiencies (skill-4 widgets)
+* - Weapons (dynamic, one title-section per weapon with message + rune checkboxes)
+* - Armor Proficiencies (skill-4 widgets)
+* - Armor section (name, AC bonus, item bonus, dex cap, potency/resilient runes, shield)
+* - Backpack (paragraph list)
+* 
+* ID range: 35000000-54999999
+*/
 
 // Basic armor lookup table (Name -> {itemBonus, dexCap})
 const BASIC_ARMOR_DATA: Record<string, {itemBonus: number, dexCap: number}> = {

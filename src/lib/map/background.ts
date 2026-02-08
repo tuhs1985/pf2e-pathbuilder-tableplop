@@ -3,10 +3,12 @@ import type { TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
 
 /**
- * Background tab:
- * - About section (paragraph with character background/story)
- * - Hidden Values section (HP modifiers, Combat modifiers)
- */
+* Background tab:
+* - About section (paragraph with character background/story)
+* - Hidden Values section (HP modifiers, Combat modifiers)
+* 
+* ID range: 90000000-99999999
+*/
 
 export function buildBackgroundProperties(build: PathbuilderBuild): TableplopProperty[] {
   const newId = makeIdAllocator('Background')

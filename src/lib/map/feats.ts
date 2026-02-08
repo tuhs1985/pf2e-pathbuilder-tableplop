@@ -3,16 +3,18 @@ import type { TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
 
 /**
- * Feats tab:
- * - Class & Ancestry Features (paragraph list from specials)
- * - Class Feats (text fields by level)
- * - Archetype (text fields by level, from "Free Archetype" slot)
- * - Ancestry Paragon (text fields by level, from "Ancestry Paragon" slot)
- * - Skill Feats (text fields by level)
- * - General Feats (text fields by level)
- * - Ancestry Feats (text fields by level)
- * - Bonus Feats (text fields for other awarded feats)
- */
+* Feats tab:
+* - Class & Ancestry Features (paragraph list from specials)
+* - Class Feats (text fields by level)
+* - Archetype (text fields by level, from "Free Archetype" slot)
+* - Ancestry Paragon (text fields by level, from "Ancestry Paragon" slot)
+* - Skill Feats (text fields by level)
+* - General Feats (text fields by level)
+* - Ancestry Feats (text fields by level)
+* - Bonus Feats (text fields for other awarded feats)
+* 
+* ID range: 55000000-69999999
+*/
 
 interface ProcessedFeat {
   name: string

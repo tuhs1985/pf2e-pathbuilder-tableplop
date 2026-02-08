@@ -7,9 +7,10 @@ Goal
 Status
 - React + TypeScript + Vite minimal app
 - Uses 8-digit ID ranges:
-  - Character: 10000000–29999999 (current MVP)
-  - Inventory: 30000000–49999999
-  - Feats: 50000000–69999999
+  - Character: 10000000–19999999
+  - Actions: 20000000–34999999
+  - Inventory: 35000000–54999999
+  - Feats: 55000000–69999999
   - Spells: 70000000–89999999
   - Background: 90000000–99999999
 

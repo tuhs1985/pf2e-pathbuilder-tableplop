@@ -1,6 +1,7 @@
 import type { PathbuilderBuild } from '../pathbuilder'
 import type { TableplopCharacter, TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
+import { buildActionsProperties } from './actions'
 import { buildInventoryProperties } from './inventory'
 import { buildFeatsProperties } from './feats'
 import { buildBackgroundProperties } from './background'
@@ -13,6 +14,8 @@ import { buildBackgroundProperties } from './background'
  * - Combat Info (HP, AC, Speed, Saves, Perception, Class DC, Languages)
  * - Skills (all 16 core skills)
  * - Lores (dynamic from Pathbuilder)
+ * 
+ * ID range: 10000000-19999999
  */
 export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacter {
   const newId = makeIdAllocator('Character')
@@ -362,6 +365,10 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
 
   // Appearance widget (rank 24, after Lores)
   props.push({ id: newId(), parentId: rightColId, type: 'appearance', data: { appearances: [] }, rank: 24, characterId: null })
+
+  // Add Actions tab and its properties
+  const actionsProps = buildActionsProperties(build)
+  actionsProps.forEach(prop => props.push(prop))
 
   // Add Inventory tab and its properties
   const inventoryProps = buildInventoryProperties(build)
