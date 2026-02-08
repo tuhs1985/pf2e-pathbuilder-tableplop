@@ -50,9 +50,10 @@ Updated: 2025-11-19
   - Formulas are name-based, so renumbering doesn’t break formulas (keep names the same).
 
 - Tab ID ranges (adopted)
-  - Character: 10000000–29999999
-  - Inventory: 30000000–49999999
-  - Feats: 50000000–69999999
+  - Character: 10000000–19999999
+  - Action: 20000000-34999999
+  - Inventory: 35000000–54999999
+  - Feats: 55000000–69999999
   - Spells: 70000000–89999999
   - Background: 90000000–99999999
   - Guidance:

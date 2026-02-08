@@ -5,10 +5,12 @@ import { downloadJson } from './lib/download'
 import { ReturnButton } from './components/ReturnButton'
 
 export function App() {
-  const [pbId, setPbId] = useState('')
-  const [status, setStatus] = useState<string>('')
-  const [preview, setPreview] = useState<any>(null)
-  const [showFeatures, setShowFeatures] = useState(false)
+const [pbId, setPbId] = useState('')
+const [status, setStatus] = useState<string>('')
+const [preview, setPreview] = useState<any>(null)
+const [showFeatures, setShowFeatures] = useState(false)
+const [copySuccess, setCopySuccess] = useState(false)
+const [showJsonOutput, setShowJsonOutput] = useState(false)
 
   async function handleFetch() {
     setStatus('Fetching...')
@@ -42,6 +44,18 @@ export function App() {
     downloadJson(preview, filename)
   }
 
+  function handleCopyJson() {
+    if (!preview) return
+    
+    const jsonString = JSON.stringify(preview, null, 2)
+    navigator.clipboard.writeText(jsonString).then(() => {
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
+    }).catch(err => {
+      console.error('Failed to copy:', err)
+    })
+  }
+
   return (
     <div className="app-container">
       <div className="app-inner">
@@ -59,6 +73,11 @@ export function App() {
             <input
               value={pbId}
               onChange={e => setPbId(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  handleFetch()
+                }
+              }}
               placeholder="Pathbuilder ID"
               inputMode="numeric"
             />
@@ -76,12 +95,28 @@ export function App() {
         </div>
 
         {preview && (
-          <details open className="preview-section">
-            <summary>Preview (first 30 properties)</summary>
-            <pre>
-              {JSON.stringify({ ...preview, properties: preview.properties.slice(0, 30) }, null, 2)}
-            </pre>
-          </details>
+          <div className="preview-section">
+            <div className="preview-header">
+              <button 
+                className="json-output-toggle"
+                onClick={() => setShowJsonOutput(!showJsonOutput)}
+              >
+                {showJsonOutput ? '▼ Hide JSON Output' : '▶ JSON Output'}
+              </button>
+              <button 
+                className="copy-json-btn"
+                onClick={handleCopyJson}
+              >
+                {copySuccess ? '✓ Copied!' : 'Copy JSON'}
+              </button>
+            </div>
+            
+            {showJsonOutput && (
+              <pre className="json-output">
+                {JSON.stringify(preview, null, 2)}
+              </pre>
+            )}
+          </div>
         )}
 
         <div className="features-card">
@@ -186,20 +221,30 @@ export function App() {
               gain new abilities or make manual adjustments.
             </p>
           </div>
-
-          <footer className="app-footer">
-            <p>
-              Part of the{' '}
-              <a 
-                href="https://tools.tuhsrpg.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                TUHS RPG Tools Suite
-              </a>
-            </p>
-          </footer>
         </div>
+
+        <footer className="app-footer">
+          <a 
+            href="https://github.com/tuhs1985/pf2e-pathbuilder-tableplop" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on GitHub / Report Issues
+          </a>
+          
+          <p className="paizo-notice">
+            This website uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo's Community Use Policy (paizo.com/licenses/communityuse). 
+            We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Paizo. 
+            For more information about Paizo Inc. and Paizo products, visit{' '}
+            <a 
+              href="https://paizo.com/" 
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              paizo.com
+            </a>.
+          </p>
+        </footer>
       </div>
     </div>
   )

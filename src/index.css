@@ -165,13 +165,52 @@ input:focus {
   margin-bottom: 2rem;
 }
 
-.preview-section summary {
-  cursor: pointer;
-  font-weight: 500;
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.preview-section pre {
+.json-output-toggle {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s;
+  text-align: left;
+}
+
+.json-output-toggle:hover {
+  background-color: #2a2a2a;
+  border-color: #646cff;
+}
+
+.copy-json-btn {
+  padding: 0.75rem 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s;
+  white-space: nowrap;
+}
+
+.copy-json-btn:hover {
+  background-color: #2a2a2a;
+  border-color: #646cff;
+}
+
+.json-output {
   background: #111;
   color: #ddd;
   padding: 1rem;
@@ -179,6 +218,7 @@ input:focus {
   max-height: 50vh;
   border-radius: 4px;
   font-size: 0.875rem;
+  margin: 0;
 }
 
 /* Features section */
@@ -362,16 +402,39 @@ input:focus {
 
 /* Footer */
 .app-footer {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   text-align: center;
   font-size: 0.875rem;
-  color: #888;
   padding-top: 1rem;
-  border-top: 1px solid #333;
 }
 
 .app-footer a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.app-footer a:hover {
   color: #646cff;
+  text-decoration: underline;
+}
+
+.paizo-notice {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paizo-notice a {
+  color: #666;
+}
+
+.paizo-notice a:hover {
+  color: #888;
 }
 
 /* Responsive */
