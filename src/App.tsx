@@ -71,9 +71,10 @@ export function App() {
       <ul>
         <li>✅ Character Details (Name, Ancestry, Heritage, Class, Background, Level, Experience)</li>
         <li>✅ Ability Scores (all 6 abilities with formulas)</li>
-        <li>✅ Combat Info (HP, AC, Speed, Saves, Perception, Class DC, Languages)</li>
+        <li>✅ Combat Info (HP with Max HP formula, AC, Speed, Saves, Perception, Class DC, Languages)</li>
         <li>✅ Skills (all 16 core skills with proficiency pips)</li>
         <li>✅ Lores (dynamically added from Pathbuilder)</li>
+        <li>✅ Max HP formula: (class_hp+con)*level + ancestry_hp + level*hp_per_level + bonus_hp</li>
       </ul>
       <p><strong>Inventory Tab (Complete)</strong></p>
       <ul>
@@ -94,10 +95,16 @@ export function App() {
         <li>✅ Ancestry Feats (organized by level)</li>
         <li>✅ Bonus Feats (awarded feats)</li>
       </ul>
+      <p><strong>Background Tab (Complete)</strong></p>
+      <ul>
+        <li>✅ About section (comprehensive user guide with armor/shield notes)</li>
+        <li>✅ Hidden Values (HP modifiers: Ancestry HP, Class HP, HP per Level, Bonus HP)</li>
+        <li>✅ Combat Modifiers (Armor-Class field used by AC above tabs, Class dmg bonus, Other dmg bonus)</li>
+        <li>✅ Class damage bonus calculated upon conversion from Weapon Specialization</li>
+      </ul>
       <p><strong>Coming Soon</strong></p>
       <ul>
         <li>Spells tab (Spellcasting and Focus Spells)</li>
-        <li>Background tab (Background story/notes)</li>
       </ul>
       <p><strong>Notes</strong></p>
       <ul>

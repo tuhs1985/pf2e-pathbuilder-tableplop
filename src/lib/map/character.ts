@@ -3,6 +3,7 @@ import type { TableplopCharacter, TableplopProperty } from '../tableplop'
 import { makeIdAllocator } from '../idAllocator'
 import { buildInventoryProperties } from './inventory'
 import { buildFeatsProperties } from './feats'
+import { buildBackgroundProperties } from './background'
 
 /**
  * Character tab (full):
@@ -201,7 +202,7 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   const hpMaxId = newId()
   const hpTempId = newId()
   props.push({ id: hpId, parentId: combatLeftId, type: 'health', data: null, name: 'hit-points', value: maxHP, rank: -10, characterId: null })
-  props.push({ id: hpMaxId, parentId: hpId, type: 'number', data: null, name: 'hit-points-maximum', value: maxHP, rank: 1, characterId: null })
+  props.push({ id: hpMaxId, parentId: hpId, type: 'number', data: null, name: 'hit-points-maximum', value: maxHP, rank: 1, formula: '(class_hp+con)*level + ancestry_hp + level*hp_per_level + bonus_hp', characterId: null })
   props.push({ id: hpTempId, parentId: hpId, type: 'number', data: null, name: 'hit-points-temporary', value: 0, rank: 2, characterId: null })
 
   // Class DC Modifier (as skill-4 with proficiency pips)
@@ -369,6 +370,10 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   // Add Feats tab and its properties
   const featsProps = buildFeatsProperties(build)
   featsProps.forEach(prop => props.push(prop))
+
+  // Add Background tab and its properties
+  const backgroundProps = buildBackgroundProperties(build)
+  backgroundProps.forEach(prop => props.push(prop))
 
   const character = {
     type: 'tableplop-character-v2' as const,
