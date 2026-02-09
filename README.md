@@ -176,5 +176,3 @@ This project uses trademarks and/or copyrights owned by Paizo Inc., used under [
 - [Pathfinder 2e](https://paizo.com/pathfinder)
 
 ---
-
-Made with love for the Pathfinder 2e community
