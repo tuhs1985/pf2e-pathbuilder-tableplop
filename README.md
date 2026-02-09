@@ -168,7 +168,7 @@ This project uses trademarks and/or copyrights owned by Paizo Inc., used under [
 - **Paizo** for Pathfinder 2e
 - **GitHub Copilot** for AI-assisted development support
 
-## ?? Links
+## Links
 
 - [Live App](https://tuhs1985.github.io/pf2e-pathbuilder-tableplop/) (GitHub Pages)
 - [Pathbuilder 2e](https://pathbuilder2e.com/)
