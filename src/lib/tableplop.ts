@@ -14,6 +14,7 @@ export type TableplopType =
 | 'appearance'
 | 'message'
 | 'heading'
+| 'filter-list'
 
 export interface TableplopProperty {
   id: number

@@ -98,11 +98,14 @@ export function buildActionsProperties(build: PathbuilderBuild): TableplopProper
     // Build attack formula similar to inventory
     const die = weapon.die || 'd8'
     const dieCount = weapon.die && weapon.die.startsWith('1d') ? 1 : (weapon.die && weapon.die.startsWith('2d') ? 2 : 1)
-    const strikeRune = weapon.strike || 0
+    const strikingRune = weapon.str || ''
     const potencyRune = weapon.pot || 0
     
+    // Map striking rune to numeric index
+    const strikingIndex = strikingRune === 'striking' ? 1 : strikingRune === 'greaterStriking' ? 2 : strikingRune === 'majorStriking' ? 3 : 0
+    
     const attackFormula = `{1d20+Str+${profKey}+potency_Rune_${potencyRune}}`
-    const damageFormula = `{@:striking_rune_${strikeRune}+${dieCount}:${die}+Str+class_dmg+other_dmg}`
+    const damageFormula = `{@:striking_rune_${strikingIndex}+${dieCount}:${die}+Str+class_dmg+other_dmg}`
     const message = `${weaponName}: To hit ${attackFormula}, Damage: ${damageFormula}`
     
     props.push({

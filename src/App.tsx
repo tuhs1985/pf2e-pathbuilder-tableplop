@@ -153,6 +153,16 @@ const [showJsonOutput, setShowJsonOutput] = useState(false)
               </div>
 
               <div className="feature-section">
+                <h3>Actions Tab</h3>
+                <ul>
+                  <li>✅ Encounter Actions (Attacks from weapons, standard actions, reactions, free actions)</li>
+                  <li>✅ Exploration Actions (Avoid Notice, Scout, Search, Detect Magic, etc.)</li>
+                  <li>✅ Downtime Actions (Earn Income, Craft, etc.)</li>
+                  <li>✅ All actions include filter-list for easy searching</li>
+                </ul>
+              </div>
+
+              <div className="feature-section">
                 <h3>Feats Tab</h3>
                 <ul>
                   <li>✅ Class & Ancestry Features (from specials)</li>
@@ -167,6 +177,22 @@ const [showJsonOutput, setShowJsonOutput] = useState(false)
               </div>
 
               <div className="feature-section">
+                <h3>Spells Tab</h3>
+                <ul>
+                  <li>✅ Dynamic tradition grouping (Arcane, Divine, Occult, Primal)</li>
+                  <li>✅ Spell Attack & DC per tradition with proficiency pips</li>
+                  <li>✅ Prepared Spells with spellbook (source of truth)</li>
+                  <li>✅ Spontaneous Spells (known spells)</li>
+                  <li>✅ Innate Spellcasting</li>
+                  <li>✅ Focus Spells with auto-heightening</li>
+                  <li>✅ Cantrips auto-heighten to max spell rank</li>
+                  <li>✅ Focus Points tracking</li>
+                  <li>✅ Prepared spell duplicates collapsed (x2, x3)</li>
+                  <li>✅ Multiple casters per tradition supported</li>
+                </ul>
+              </div>
+
+              <div className="feature-section">
                 <h3>Background Tab</h3>
                 <ul>
                   <li>✅ About section (comprehensive user guide with armor/shield notes)</li>
@@ -175,17 +201,23 @@ const [showJsonOutput, setShowJsonOutput] = useState(false)
                   <li>✅ Class damage bonus calculated upon conversion from Weapon Specialization</li>
                 </ul>
               </div>
-
-              <div className="feature-section coming-soon">
-                <h3>Coming Soon</h3>
-                <ul>
-                  <li>Spells tab (Spellcasting and Focus Spells)</li>
-                </ul>
-              </div>
             </div>
           )}
 
           <div className="notes-section">
+            <h3>Complete Character Export</h3>
+            <p>
+              This exporter creates a <strong>fully functional Tableplop character sheet</strong> with 6 complete tabs:
+            </p>
+            <ul>
+              <li><strong>Character:</strong> Stats, abilities, skills, saves, combat info</li>
+              <li><strong>Actions:</strong> Weapon attacks, standard actions, exploration, downtime</li>
+              <li><strong>Inventory:</strong> Weapons, armor, equipment with formulas</li>
+              <li><strong>Feats:</strong> All feat types organized by level</li>
+              <li><strong>Spells:</strong> Full spellcasting with traditions, focus spells, auto-heightening</li>
+              <li><strong>Background:</strong> User guide and hidden formula values</li>
+            </ul>
+
             <h3>Armor Notes</h3>
             <p>
               The exporter recognizes most basic armors from the Core Rulebook. If your armor is not recognized, 

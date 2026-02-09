@@ -84,6 +84,37 @@ languages?: string[]
   equipment?: Array<string | [string, number] | [string, number, string]>
   feats?: Array<[string, string | null, string, number, string, string, string | null]>
   specials?: string[]
+  spellCasters?: Array<{
+    name: string
+    magicTradition?: string
+    spellcastingType?: string
+    ability?: string
+    proficiency?: number
+    focusPoints?: number
+    innate?: boolean
+    perDay?: number[]
+    spells?: Array<{
+      spellLevel: number
+      list: string[]
+    }>
+    prepared?: Array<{
+      spellLevel: number
+      list: string[]
+    }>
+    blendedSpells?: any[]
+  }>
+  focusPoints?: number
+  focus?: {
+    [tradition: string]: {
+      [ability: string]: {
+        abilityBonus?: number
+        proficiency?: number
+        itemBonus?: number
+        focusCantrips?: string[]
+        focusSpells?: string[]
+      }
+    }
+  }
 }
 
 export async function fetchPathbuilderBuild(id: string): Promise<PathbuilderBuild> {

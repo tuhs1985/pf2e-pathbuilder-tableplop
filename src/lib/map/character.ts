@@ -5,6 +5,7 @@ import { buildActionsProperties } from './actions'
 import { buildInventoryProperties } from './inventory'
 import { buildFeatsProperties } from './feats'
 import { buildBackgroundProperties } from './background'
+import { buildSpellsProperties } from './spells'
 
 /**
  * Character tab (full):
@@ -377,6 +378,10 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   // Add Feats tab and its properties
   const featsProps = buildFeatsProperties(build)
   featsProps.forEach(prop => props.push(prop))
+
+  // Add Spells tab and its properties
+  const spellsProps = buildSpellsProperties(build)
+  spellsProps.forEach(prop => props.push(prop))
 
   // Add Background tab and its properties
   const backgroundProps = buildBackgroundProperties(build)
