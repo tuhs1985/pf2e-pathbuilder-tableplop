@@ -61,7 +61,7 @@ A comprehensive tool to convert Pathfinder 2e character builds from Pathbuilder 
   - Combat Modifiers (Armor-Class formula value, Class damage bonus, Other damage bonus)
 - Class damage bonus calculated from Weapon Specialization
 
-## ?? Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js (v18 or higher recommended)
@@ -91,7 +91,7 @@ npm run dev
 4. **Click "Download JSON"** to save the file
 5. **Import in Tableplop**: Open Tableplop, click Import, and select your downloaded JSON file
 
-## ?? Available Scripts
+## Available Scripts
 
 - `npm run dev` - Start development server with hot reload
 - `npm run build` - Build production bundle
@@ -123,12 +123,12 @@ The exporter uses deterministic 8-digit ID ranges per tab:
 - Formula preservation for dynamic calculations
 - Defensive programming with null checks and defaults
 
-## ?? Documentation
+## Documentation
 
 See the `/docs` folder for detailed documentation:
 - `Tableplop-Working-Notes.md` - Core patterns and type rules
 
-## ?? Known Limitations
+## Known Limitations
 
 1. **Shield Stats**: Pathbuilder doesn't export shield HP or Hardness. Users must manually enter these values in the Inventory tab after import.
 
