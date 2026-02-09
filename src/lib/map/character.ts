@@ -141,8 +141,8 @@ export function buildCharacterExport(build: PathbuilderBuild): TableplopCharacte
   props.push({ id: woundedColId, parentId: dyingWoundedRowId, type: 'section', data: {}, size: 50, rank: 1, characterId: null })
 
   const dyingId = newId()
-  props.push({ id: dyingId, parentId: dyingColId, type: 'checkboxes', data: null, name: 'Dieing', value: 0, rank: 0, message: 'Death Save: {1d20 > @:10+dieing:}', characterId: null })
-  props.push({ id: newId(), parentId: dyingId, type: 'number', data: null, name: 'dieing-max', value: 4, rank: 1, characterId: null })
+  props.push({ id: dyingId, parentId: dyingColId, type: 'checkboxes', data: null, name: 'Dying', value: 0, rank: 0, message: 'Death Save: {1d20 > @:10+dying:}', characterId: null })
+  props.push({ id: newId(), parentId: dyingId, type: 'number', data: null, name: 'dying-max', value: 4, rank: 1, characterId: null })
 
   const woundedId = newId()
   props.push({ id: woundedId, parentId: woundedColId, type: 'checkboxes', data: null, name: 'Wounded', value: 0, rank: 1, characterId: null })
