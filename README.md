@@ -2,7 +2,7 @@
 
 A comprehensive tool to convert Pathfinder 2e character builds from Pathbuilder JSON format into fully functional Tableplop character sheets.
 
-## ? Features
+## Features
 
 ### Complete Character Export (6 Tabs)
 
@@ -99,7 +99,7 @@ npm run dev
 - `npm run lint` - Run ESLint on source files
 - `npm run deploy` - Deploy to GitHub Pages
 
-## ??? Architecture
+## Architecture
 
 ### ID Allocation
 The exporter uses deterministic 8-digit ID ranges per tab:
@@ -142,7 +142,7 @@ See the `/docs` folder for detailed documentation:
 
 4. **Content**: Pathbuilder spells and feats import as names only; descriptions will have to be supplied by the user.
 
-## ?? Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -153,15 +153,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Test imports in Tableplop before submitting PRs
 - Update documentation for significant changes
 
-## ?? License
+## License
 
 MIT License - feel free to use, fork, modify, and distribute this project however you want. See [LICENSE](LICENSE) file for full details.
 
-## ?? Legal / Attribution
+## Legal / Attribution
 
 This project uses trademarks and/or copyrights owned by Paizo Inc., used under [Paizo's Community Use Policy](https://paizo.com/licenses/communityuse). We are expressly prohibited from charging you to use or access this content. This project is not published, endorsed, or specifically approved by Paizo. For more information about Paizo Inc. and Paizo products, visit [paizo.com](https://paizo.com).
 
-## ?? Acknowledgments
+## Acknowledgments
 
 - **Pathbuilder 2e** by Redrazors for the excellent character builder
 - **Tableplop** for the virtual tabletop platform
@@ -177,4 +177,4 @@ This project uses trademarks and/or copyrights owned by Paizo Inc., used under [
 
 ---
 
-Made with ?? for the Pathfinder 2e community
+Made with love for the Pathfinder 2e community
