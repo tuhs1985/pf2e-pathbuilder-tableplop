@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { fetchPathbuilderBuild } from './lib/pathbuilder'
 import { buildCharacterExport } from './lib/map/character'
 import { downloadJson } from './lib/download'
@@ -11,20 +11,110 @@ const [preview, setPreview] = useState<any>(null)
 const [showFeatures, setShowFeatures] = useState(false)
 const [copySuccess, setCopySuccess] = useState(false)
 const [showJsonOutput, setShowJsonOutput] = useState(false)
+const [confirmData, setConfirmData] = useState<any>(null)
+const [isFetching, setIsFetching] = useState(false)
+const [cooldownSeconds, setCooldownSeconds] = useState(0)
 
-  async function handleFetch() {
+function handleFetch() {
+  // Single-flight guard
+  if (isFetching) {
+    setStatus('Error: Request already in progress')
+    return
+  }
+    
+  // Cooldown check
+  if (cooldownSeconds > 0) {
+    setStatus(`Error: Please wait ${cooldownSeconds}s before trying again`)
+    return
+  }
+    
+  const trimmedId = pbId.trim()
+    
+    // Validate ID format and length
+    if (!trimmedId) {
+      setStatus('Error: Please enter a Pathbuilder ID')
+      return
+    }
+    
+    if (!/^\d+$/.test(trimmedId)) {
+      setStatus('Error: ID must be numeric')
+      return
+    }
+    
+    if (trimmedId.length < 6) {
+      setStatus('Error: ID must be at least 6 digits')
+      return
+    }
+    
+    // Show confirmation modal with the ID to fetch
+    setConfirmData({ id: trimmedId })
+    setStatus('')
+  }
+
+  async function handleConfirm() {
+    if (!confirmData?.id) return
+    
+    // Single-flight guard (double-check)
+    if (isFetching) {
+      setStatus('Error: Request already in progress')
+      return
+    }
+    
+    setIsFetching(true)
     setStatus('Fetching...')
-    setPreview(null)
+    setConfirmData(null)
+    
     try {
-      const build = await fetchPathbuilderBuild(pbId.trim())
+      const build = await fetchPathbuilderBuild(confirmData.id)
       setStatus('Mapping...')
       const tableplop = buildCharacterExport(build)
       setPreview(tableplop)
       setStatus('Ready')
     } catch (e: any) {
       setStatus(`Error: ${e?.message || String(e)}`)
+    } finally {
+      setIsFetching(false)
+      // Start 15 second cooldown
+      setCooldownSeconds(15)
     }
   }
+
+  function handleCancel() {
+    setConfirmData(null)
+    setStatus('')
+  }
+
+  // Keyboard shortcuts for confirmation modal
+  useEffect(() => {
+    if (!confirmData) return
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        e.stopPropagation()
+        handleCancel()
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        e.stopPropagation()
+        handleConfirm()
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [confirmData, handleConfirm, handleCancel])
+
+  // Cooldown countdown timer
+  useEffect(() => {
+    if (cooldownSeconds <= 0) return
+    
+    const timer = setTimeout(() => {
+      setCooldownSeconds(cooldownSeconds - 1)
+    }, 1000)
+    
+    return () => clearTimeout(timer)
+  }, [cooldownSeconds])
 
   function handleDownload() {
     if (!preview) return
@@ -74,7 +164,9 @@ const [showJsonOutput, setShowJsonOutput] = useState(false)
               value={pbId}
               onChange={e => setPbId(e.target.value)}
               onKeyDown={e => {
-                if (e.key === 'Enter') {
+                if ((e.key === 'Enter' || e.keyCode === 13) && !confirmData) {
+                  e.preventDefault()
+                  e.stopPropagation()
                   handleFetch()
                 }
               }}
@@ -93,6 +185,29 @@ const [showJsonOutput, setShowJsonOutput] = useState(false)
             <p className="status-message">{status}</p>
           )}
         </div>
+
+        {/* Confirmation Modal */}
+        {confirmData && (
+          <div className="modal-overlay" onClick={handleCancel}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <h2>Confirm Export</h2>
+              <div className="confirm-details">
+                <p><strong>Pathbuilder ID:</strong> {confirmData.id}</p>
+              </div>
+              <p className="confirm-question">
+                Fetch and convert this character from Pathbuilder?
+              </p>
+              <div className="modal-actions">
+                <button className="btn-confirm" onClick={handleConfirm}>
+                  Yes, Fetch & Convert
+                </button>
+                <button className="btn-cancel" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {preview && (
           <div className="preview-section">
