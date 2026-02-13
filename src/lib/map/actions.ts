@@ -89,33 +89,69 @@ export function buildActionsProperties(build: PathbuilderBuild): TableplopProper
   const attacksFilterId = newId()
   props.push({ id: attacksFilterId, parentId: attacksSubsectionId, type: 'filter-list', data: null, rank: -1, characterId: null })
 
-  // Add weapon attacks from Pathbuilder (duplicates from inventory)
+  // Add weapon attacks from Pathbuilder (match inventory exactly)
   const weapons = build.weapons || []
-  weapons.forEach((weapon, idx) => {
-    const weaponName = weapon.name || weapon.display || 'Weapon'
-    const profKey = weapon.prof || 'Martial'
-    
-    // Build attack formula similar to inventory
-    const die = weapon.die || 'd8'
-    const dieCount = weapon.die && weapon.die.startsWith('1d') ? 1 : (weapon.die && weapon.die.startsWith('2d') ? 2 : 1)
+  weapons.forEach((weapon, index) => {
+    const weaponNum = index + 1
+    const baseName = weapon.name || weapon.display || 'Weapon'
+    const potency = weapon.pot ?? 0
     const strikingRune = weapon.str || ''
-    const potencyRune = weapon.pot || 0
-    
-    // Map striking rune to numeric index
-    const strikingIndex = strikingRune === 'striking' ? 1 : strikingRune === 'greaterStriking' ? 2 : strikingRune === 'majorStriking' ? 3 : 0
-    
-    const attackFormula = `{1d20+Str+${profKey}+potency_Rune_${potencyRune}}`
-    const damageFormula = `{@:striking_rune_${strikingIndex}+${dieCount}:${die}+Str+class_dmg+other_dmg}`
-    const message = `${weaponName}: To hit ${attackFormula}, Damage: ${damageFormula}`
-    
+
+    // Build striking rune name
+    const strikingMap: Record<string, string> = {
+      '': '',
+      'striking': 'Striking',
+      'greaterStriking': 'Greater Striking',
+      'majorStriking': 'Major Striking'
+    }
+    const strikingName = strikingMap[strikingRune] || ''
+
+    // Get property runes (flaming, frost, etc.)
+    const propertyRunes = weapon.runes || []
+
+    // Build full name: "+2 Striking Flaming Frost Longsword"
+    const nameParts: string[] = []
+    if (potency > 0) nameParts.push(`+${potency}`)
+    if (strikingName) nameParts.push(strikingName)
+    propertyRunes.forEach(rune => {
+      // Capitalize first letter of rune name
+      const runeName = rune.charAt(0).toUpperCase() + rune.slice(1)
+      nameParts.push(runeName)
+    })
+    nameParts.push(baseName)
+    const fullWeaponName = nameParts.join(' ')
+
+    // Build attack formula (match inventory exactly)
+    const profType = weapon.prof === 'simple' ? 'Simple' : weapon.prof === 'martial' ? 'Martial' : weapon.prof === 'advanced' ? 'Advanced' : 'Unarmed'
+
+    // Build damage formula with extraDamage
+    const die = weapon.die || 'd8'
+    const dieCount = weapon.die && weapon.die.startsWith('2d') ? 2 : 1
+    let damageFormula = `{@:striking_rune_${weaponNum}+${dieCount}:${die}+Str+class_dmg+other_dmg}`
+
+    // Add extra damage dice (fire, cold, etc.)
+    const extraDamage = weapon.extraDamage || []
+    extraDamage.forEach(extra => {
+      // Parse "1d6 fire" into dice and type
+      const match = extra.match(/^(\d+d\d+)\s+(.+)$/i)
+      if (match) {
+        const dice = match[1]
+        const damageType = match[2]
+        damageFormula += ` + {${dice}}${damageType}`
+      }
+    })
+
+    const attackFormula = `{1d20+Str+${profType}+potency_Rune_${weaponNum}}`
+    const message = `${fullWeaponName}: To hit ${attackFormula}, Damage: ${damageFormula}`
+
     props.push({
       id: newId(),
       parentId: attacksFilterId,
       type: 'message',
       data: null,
-      name: weaponName,
+      name: fullWeaponName,
       icon: '/images/message.png',
-      rank: idx,
+      rank: index,
       message: message,
       characterId: null
     })
